@@ -10,6 +10,7 @@ namespace Server.Configurations
         {
             CreateMap<User, RegisterDTO>().ReverseMap();
             CreateMap<User, UserDTO>().ReverseMap();
+            CreateMap<Group, CreateGroupDTO>().ReverseMap();
         }
     }
 }

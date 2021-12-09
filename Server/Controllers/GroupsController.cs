@@ -59,11 +59,27 @@ namespace Server.Controllers
                 await _unitOfWork.Groups.Insert(group);
                 await _unitOfWork.Save();
 
-                return CreatedAtAction("GetGroup", new { id = group.Id });
+                return CreatedAtAction("GetGroup", new { id = group.Id }, group);
             }
             catch (Exception ex)
             {
                 return Problem($"Something went wrong in {nameof(CreateGroup)}, Message: {ex}", statusCode: 500);
+            }
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteGroup(int id)
+        {
+            try
+            {
+                await _unitOfWork.Groups.Delete(id);
+                await _unitOfWork.Save();
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return Problem($"Something went wrong in {nameof(DeleteGroup)}, Message: {ex}", statusCode: 500);
             }
         }
     }
