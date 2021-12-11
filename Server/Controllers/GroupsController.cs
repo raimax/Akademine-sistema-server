@@ -8,7 +8,6 @@ using Server.Models;
 
 namespace Server.Controllers
 {
-    [Authorize(Roles = "Administrator")]
     [Route("api/[controller]")]
     [ApiController]
     public class GroupsController : ControllerBase

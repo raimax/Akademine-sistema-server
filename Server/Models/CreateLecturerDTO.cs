@@ -2,16 +2,18 @@
 
 namespace Server.Models
 {
-    public class RegisterDTO : LoginDTO
+    public class CreateLecturerDTO
     {
-        [DataType(DataType.EmailAddress)]
-        public string? Email { get; set; }
-
+        [Required]
         public string? FirstName { get; set; }
 
+        [Required]
         public string? LastName { get; set; }
 
         [Required]
-        public ICollection<string>? Roles { get; set; }
+        public string? Username { get; set; }
+
+        [Required]
+        public string? Password { get; set; }
     }
 }

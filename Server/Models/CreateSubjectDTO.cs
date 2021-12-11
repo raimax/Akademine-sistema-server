@@ -2,7 +2,7 @@
 
 namespace Server.Models
 {
-    public class CreateGroupDTO
+    public class CreateSubjectDTO
     {
         [Required]
         public string? Name { get; set; }
