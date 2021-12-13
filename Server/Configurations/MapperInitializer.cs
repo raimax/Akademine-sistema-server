@@ -14,7 +14,13 @@ namespace Server.Configurations
             CreateMap<User, LecturerDTO>().ReverseMap();
             CreateMap<User, StudentDTO>().ReverseMap();
             CreateMap<Group, CreateGroupDTO>().ReverseMap();
+            CreateMap<Group, GroupDTO>().ReverseMap();
             CreateMap<Subject, CreateSubjectDTO>().ReverseMap();
+            CreateMap<Subject, SubjectDTO>().ReverseMap();
+            CreateMap<LecturerSubject, AssignSubjectDTO>().ReverseMap();
+            CreateMap<StudentGroup, AssignGroupDTO>().ReverseMap();
+            CreateMap<GroupSubject, AssignGroupSubjectAttributes>().ReverseMap();
+            CreateMap<GroupSubject, GroupSubjectDTO>().ReverseMap();
         }
     }
 }

@@ -9,6 +9,6 @@ namespace Server.Data
         public string? LastName { get; set; }
         public virtual StudentGroup? StudentGroup { get; set; }
         public virtual List<StudentGrade>? StudentGrades { get; set; }
-        public virtual List<LecturerSubject>? LecturerSubjects { get; set; }
+        public virtual LecturerSubject? LecturerSubject { get; set; }
     }
 }

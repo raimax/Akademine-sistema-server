@@ -31,6 +31,10 @@ namespace Server.Controllers
             {
                 var students = await _userManager.GetUsersInRoleAsync("Student");
                 var result = _mapper.Map<IList<StudentDTO>>(students);
+                foreach (var student in result)
+                {
+                    student.StudentGroup = await _unitOfWork.StudentGroups.Get(q => q.UserId == student.Id, new List<string> { "Group" });
+                }
                 return Ok(result);
             }
             catch (Exception ex)
@@ -45,7 +49,8 @@ namespace Server.Controllers
             try
             {
                 var student = await _userManager.FindByIdAsync(id);
-                var result = _mapper.Map<LecturerDTO>(student);
+                var result = _mapper.Map<StudentDTO>(student);
+                result.StudentGroup = await _unitOfWork.StudentGroups.Get(q => q.UserId == student.Id, new List<string> { "Group" });
                 return Ok(result);
             }
             catch (Exception ex)

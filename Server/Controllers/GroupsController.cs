@@ -27,7 +27,16 @@ namespace Server.Controllers
         {
             try
             {
-                return Ok(await _unitOfWork.Groups.GetAll());
+                var groups = await _unitOfWork.Groups.GetAll(null, null, new List<string> { "GroupSubjects" });
+                foreach (var group in groups)
+                {
+                    foreach (var groupSubject in group.GroupSubjects)
+                    {
+                        groupSubject.Subject = await _unitOfWork.Subjects.Get(q => q.Id == groupSubject.SubjectId);
+                    }
+                }
+                var result = _mapper.Map<List<GroupDTO>>(groups);
+                return Ok(result);
             }
             catch (Exception ex)
             {

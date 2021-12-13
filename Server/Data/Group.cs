@@ -9,7 +9,7 @@ namespace Server.Data
 
         public string? Name { get; set; }
 
-        public List<StudentGroup>? StudentGroups { get; set; }
-        public List<GroupSubject>? GroupSubjects { get; set; }
+        public virtual List<StudentGroup>? StudentGroups { get; set; }
+        public virtual List<GroupSubject>? GroupSubjects { get; set; }
     }
 }

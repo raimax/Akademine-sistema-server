@@ -11,8 +11,8 @@ using Server.Data;
 namespace Server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20211209101923_Initial")]
-    partial class Initial
+    [Migration("20211213220250_Roles")]
+    partial class Roles
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,10 +28,6 @@ namespace Server.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("Name")
@@ -50,27 +46,25 @@ namespace Server.Migrations
 
                     b.ToTable("AspNetRoles", (string)null);
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityRole");
-
                     b.HasData(
                         new
                         {
-                            Id = "32e02ce9-edb9-4cc5-9537-352755548f96",
-                            ConcurrencyStamp = "aed814ec-0ad9-4b17-9efa-6ceb37e499a3",
+                            Id = "38afad98-f4d1-4901-a1c8-c99ebae0a38e",
+                            ConcurrencyStamp = "77681df3-7be4-4ae6-865a-f1120d88b1d5",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
-                            Id = "033a6cbf-f879-4552-aa57-c6f7731e1f81",
-                            ConcurrencyStamp = "d941e776-a61d-4a4d-9ea0-8944a8e79180",
+                            Id = "73acc7e0-babc-4996-83c7-308ce852e904",
+                            ConcurrencyStamp = "e7289a16-0fd3-4bc6-9974-3a7d396739ca",
                             Name = "Lecturer",
                             NormalizedName = "LECTURER"
                         },
                         new
                         {
-                            Id = "86fc7864-b09a-476a-a261-f2c98088b35c",
-                            ConcurrencyStamp = "0819643f-8565-444f-b790-559a02aaacbe",
+                            Id = "351abf97-6cba-4440-93f0-44ec19711740",
+                            ConcurrencyStamp = "8e877537-d665-4cb9-9cff-bd67a875cec1",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -152,17 +146,11 @@ namespace Server.Migrations
                     b.Property<string>("RoleId")
                         .HasColumnType("varchar(255)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUserRole<string>");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -214,29 +202,22 @@ namespace Server.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.HasIndex("SubjectId")
-                        .IsUnique();
+                    b.HasIndex("SubjectId");
 
                     b.ToTable("GroupSubject");
                 });
 
             modelBuilder.Entity("Server.Data.LecturerSubject", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("SubjectId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(255)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("SubjectId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("LecturerSubject");
                 });
@@ -313,6 +294,12 @@ namespace Server.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<string>("FirstName")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("longtext");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("tinyint(1)");
 
@@ -356,30 +343,6 @@ namespace Server.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("Server.Data.Role", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
-
-                    b.HasDiscriminator().HasValue("Role");
-                });
-
-            modelBuilder.Entity("Server.Data.UserRole", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserRole<string>");
-
-                    b.Property<string>("RoleId1")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("UserId1")
-                        .HasColumnType("varchar(255)");
-
-                    b.HasIndex("RoleId1");
-
-                    b.HasIndex("UserId1");
-
-                    b.HasDiscriminator().HasValue("UserRole");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -442,8 +405,8 @@ namespace Server.Migrations
                         .IsRequired();
 
                     b.HasOne("Server.Data.Subject", "Subject")
-                        .WithOne("GroupSubject")
-                        .HasForeignKey("Server.Data.GroupSubject", "SubjectId")
+                        .WithMany("GroupSubjects")
+                        .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -454,15 +417,17 @@ namespace Server.Migrations
 
             modelBuilder.Entity("Server.Data.LecturerSubject", b =>
                 {
+                    b.HasOne("Server.Data.User", "User")
+                        .WithOne("LecturerSubject")
+                        .HasForeignKey("Server.Data.LecturerSubject", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Server.Data.Subject", "Subject")
                         .WithMany()
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Server.Data.User", "User")
-                        .WithMany("LecturerSubjects")
-                        .HasForeignKey("UserId");
 
                     b.Navigation("Subject");
 
@@ -505,21 +470,6 @@ namespace Server.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Server.Data.UserRole", b =>
-                {
-                    b.HasOne("Server.Data.Role", "Role")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("RoleId1");
-
-                    b.HasOne("Server.Data.User", "User")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("UserId1");
-
-                    b.Navigation("Role");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Server.Data.Group", b =>
                 {
                     b.Navigation("GroupSubjects");
@@ -529,25 +479,18 @@ namespace Server.Migrations
 
             modelBuilder.Entity("Server.Data.Subject", b =>
                 {
-                    b.Navigation("GroupSubject");
+                    b.Navigation("GroupSubjects");
 
                     b.Navigation("StudentGrades");
                 });
 
             modelBuilder.Entity("Server.Data.User", b =>
                 {
-                    b.Navigation("LecturerSubjects");
+                    b.Navigation("LecturerSubject");
 
                     b.Navigation("StudentGrades");
 
                     b.Navigation("StudentGroup");
-
-                    b.Navigation("UserRoles");
-                });
-
-            modelBuilder.Entity("Server.Data.Role", b =>
-                {
-                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Server.Data;
@@ -31,6 +30,10 @@ namespace Server.Controllers
             {
                 var lecturers = await _userManager.GetUsersInRoleAsync("Lecturer");
                 var result = _mapper.Map<IList<LecturerDTO>>(lecturers);
+                foreach (var lecturer in result)
+                {
+                    lecturer.LecturerSubject = await _unitOfWork.LecturerSubjects.Get(q => q.Id == lecturer.Id, new List<string> { "Subject" });
+                }
                 return Ok(result);
             }
             catch (Exception ex)
@@ -46,6 +49,8 @@ namespace Server.Controllers
             {
                 var lecturer = await _userManager.FindByIdAsync(id);
                 var result = _mapper.Map<LecturerDTO>(lecturer);
+                result.LecturerSubject = await _unitOfWork.LecturerSubjects.Get(q => q.Id == lecturer.Id, new List<string> { "Subject" });
+
                 return Ok(result);
             }
             catch (Exception ex)
@@ -53,5 +58,7 @@ namespace Server.Controllers
                 return Problem($"Something went wrong in {nameof(GetLecturer)}, Message: {ex}", statusCode: 500);
             }
         }
+
+        
     }
 }

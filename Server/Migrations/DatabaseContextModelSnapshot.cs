@@ -47,22 +47,22 @@ namespace Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "80150f8a-7e36-445c-9539-9fc8969d28df",
-                            ConcurrencyStamp = "06d2b83e-29e0-4c21-af5d-65215ee2e752",
+                            Id = "38afad98-f4d1-4901-a1c8-c99ebae0a38e",
+                            ConcurrencyStamp = "77681df3-7be4-4ae6-865a-f1120d88b1d5",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
-                            Id = "936dc1d2-742a-4fb4-8465-5e74c1b4c131",
-                            ConcurrencyStamp = "b939ca43-8075-4371-80b7-eb5b6c392148",
+                            Id = "73acc7e0-babc-4996-83c7-308ce852e904",
+                            ConcurrencyStamp = "e7289a16-0fd3-4bc6-9974-3a7d396739ca",
                             Name = "Lecturer",
                             NormalizedName = "LECTURER"
                         },
                         new
                         {
-                            Id = "b1766e9a-c60a-4211-9124-ea22aaa958a5",
-                            ConcurrencyStamp = "475515e2-eb28-4e6c-832e-c83884d9fa79",
+                            Id = "351abf97-6cba-4440-93f0-44ec19711740",
+                            ConcurrencyStamp = "8e877537-d665-4cb9-9cff-bd67a875cec1",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -200,29 +200,22 @@ namespace Server.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.HasIndex("SubjectId")
-                        .IsUnique();
+                    b.HasIndex("SubjectId");
 
                     b.ToTable("GroupSubject");
                 });
 
             modelBuilder.Entity("Server.Data.LecturerSubject", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("SubjectId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(255)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("SubjectId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("LecturerSubject");
                 });
@@ -410,8 +403,8 @@ namespace Server.Migrations
                         .IsRequired();
 
                     b.HasOne("Server.Data.Subject", "Subject")
-                        .WithOne("GroupSubject")
-                        .HasForeignKey("Server.Data.GroupSubject", "SubjectId")
+                        .WithMany("GroupSubjects")
+                        .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -422,15 +415,17 @@ namespace Server.Migrations
 
             modelBuilder.Entity("Server.Data.LecturerSubject", b =>
                 {
+                    b.HasOne("Server.Data.User", "User")
+                        .WithOne("LecturerSubject")
+                        .HasForeignKey("Server.Data.LecturerSubject", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Server.Data.Subject", "Subject")
                         .WithMany()
                         .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Server.Data.User", "User")
-                        .WithMany("LecturerSubjects")
-                        .HasForeignKey("UserId");
 
                     b.Navigation("Subject");
 
@@ -482,14 +477,14 @@ namespace Server.Migrations
 
             modelBuilder.Entity("Server.Data.Subject", b =>
                 {
-                    b.Navigation("GroupSubject");
+                    b.Navigation("GroupSubjects");
 
                     b.Navigation("StudentGrades");
                 });
 
             modelBuilder.Entity("Server.Data.User", b =>
                 {
-                    b.Navigation("LecturerSubjects");
+                    b.Navigation("LecturerSubject");
 
                     b.Navigation("StudentGrades");
 
