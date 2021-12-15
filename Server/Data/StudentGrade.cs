@@ -16,6 +16,9 @@ namespace Server.Data
 
         public int Grade { get; set; }
 
+        [DataType(DataType.DateTime)]
+        public DateTime Date { get; set; } = DateTime.Now;
+
         public virtual User? User { get; set; }
         public virtual Subject? Subject { get; set; }
     }

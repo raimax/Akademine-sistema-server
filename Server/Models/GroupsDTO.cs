@@ -13,6 +13,7 @@ namespace Server.Models
 
     public class GroupSubjectDTO
     {
+        public int Id { get; set; }
         public SubjectDTO? Subject { get; set; }
     }
 

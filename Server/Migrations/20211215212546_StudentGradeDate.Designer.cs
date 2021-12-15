@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Server.Data;
 
@@ -10,9 +11,10 @@ using Server.Data;
 namespace Server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20211215212546_StudentGradeDate")]
+    partial class StudentGradeDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,29 +45,6 @@ namespace Server.Migrations
                         .HasDatabaseName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "004f0b5d-4985-4073-a3cc-de16be8a8bb5",
-                            ConcurrencyStamp = "63365d83-9898-4023-b002-25ffb5cc6bd3",
-                            Name = "Student",
-                            NormalizedName = "STUDENT"
-                        },
-                        new
-                        {
-                            Id = "da35524e-9ed2-4abf-a90e-ee01aec350f3",
-                            ConcurrencyStamp = "306fd729-26bc-418f-adf2-b4acec23829c",
-                            Name = "Lecturer",
-                            NormalizedName = "LECTURER"
-                        },
-                        new
-                        {
-                            Id = "64eb0ae6-43d6-43c5-82c8-9417b9ea76eb",
-                            ConcurrencyStamp = "3b0e9976-49b3-4527-a31b-0f339f0e42b5",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

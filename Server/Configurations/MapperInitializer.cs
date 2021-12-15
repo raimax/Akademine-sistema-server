@@ -21,6 +21,9 @@ namespace Server.Configurations
             CreateMap<StudentGroup, AssignGroupDTO>().ReverseMap();
             CreateMap<GroupSubject, AssignGroupSubjectAttributes>().ReverseMap();
             CreateMap<GroupSubject, GroupSubjectDTO>().ReverseMap();
+            CreateMap<GroupSubject, RemoveGroupSubjectDTO>().ReverseMap();
+            CreateMap<GroupSubject, RemoveGroupSubjectAttributes>().ReverseMap();
+            CreateMap<StudentGrade, AddGradeDTO>().ReverseMap();
         }
     }
 }

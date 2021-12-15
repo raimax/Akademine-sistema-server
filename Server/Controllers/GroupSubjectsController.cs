@@ -21,7 +21,7 @@ namespace Server.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost("assign-subject")]
+        [HttpPost]
         public async Task<IActionResult> AssignGroupSubjects([FromBody] AssignGroupSubjectDTO dto)
         {
             try
@@ -37,17 +37,20 @@ namespace Server.Controllers
             }
         }
 
-        //[HttpDelete]
-        //public async Task<IActionResult> DeleteGroupSubject([FromBody] AssignGroupSubjectDTO dto)
-        //{
-        //    try
-        //    {
-                
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Problem($"Something went wrong in {nameof(DeleteGroupSubject)}, Message: {ex}", statusCode: 500);
-        //    }
-        //}
+        [HttpDelete]
+        public async Task<IActionResult> DeleteGroupSubjects([FromBody] RemoveGroupSubjectDTO dto)
+        {
+            try
+            {
+                var result = _mapper.Map<IList<GroupSubject>>(dto.GroupSubjects);
+                _unitOfWork.GroupSubjects.DeleteRange(result);
+                await _unitOfWork.Save();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return Problem($"Something went wrong in {nameof(DeleteGroupSubjects)}, Message: {ex}", statusCode: 500);
+            }
+        }
     }
 }
