@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Server.Data;
 
@@ -10,9 +11,10 @@ using Server.Data;
 namespace Server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20211216113437_RequireRel2")]
+    partial class RequireRel2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,22 +49,22 @@ namespace Server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e0c8ebbb-e962-4424-9c55-81af52711b24",
-                            ConcurrencyStamp = "f2f44ab0-7086-4be9-bd55-e9ce372030cc",
+                            Id = "4f9fcf97-62fb-4962-9800-cae72cd7ade3",
+                            ConcurrencyStamp = "9a771505-3988-4817-938b-742226c8adb1",
                             Name = "Student",
                             NormalizedName = "STUDENT"
                         },
                         new
                         {
-                            Id = "fd57b5f8-b4e7-4de9-923f-b408caa028f3",
-                            ConcurrencyStamp = "faf67822-9180-434c-8b38-9d9419a6fb15",
+                            Id = "ae885aa3-095c-4636-8983-6e059dfbcde7",
+                            ConcurrencyStamp = "e66d1573-b461-474d-9896-6b585de5e079",
                             Name = "Lecturer",
                             NormalizedName = "LECTURER"
                         },
                         new
                         {
-                            Id = "99fd7858-80ec-426f-a54e-162ba77ea9d5",
-                            ConcurrencyStamp = "86048dff-e68c-4aec-94ca-6887d1e4c674",
+                            Id = "80232100-9ab5-4d79-9e0e-990a6e6eb0ec",
+                            ConcurrencyStamp = "96f0ffd9-b0b6-4bfd-9b38-e54bd818b450",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         });
@@ -236,7 +238,6 @@ namespace Server.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
@@ -446,9 +447,7 @@ namespace Server.Migrations
 
                     b.HasOne("Server.Data.User", "User")
                         .WithMany("StudentGrades")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Subject");
 
@@ -490,11 +489,13 @@ namespace Server.Migrations
 
             modelBuilder.Entity("Server.Data.User", b =>
                 {
-                    b.Navigation("LecturerSubject");
+                    b.Navigation("LecturerSubject")
+                        .IsRequired();
 
                     b.Navigation("StudentGrades");
 
-                    b.Navigation("StudentGroup");
+                    b.Navigation("StudentGroup")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

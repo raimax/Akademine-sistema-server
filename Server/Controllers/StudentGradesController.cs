@@ -35,7 +35,7 @@ namespace Server.Controllers
         }
 
         [HttpGet("{subjectId:int}")]
-        public async Task<IActionResult> GetStudentGrades(int subjectId)
+        public async Task<IActionResult> GetStudentsGrades(int subjectId)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace Server.Controllers
             }
             catch (Exception ex)
             {
-                return Problem($"Something went wrong in {nameof(GetStudentGrades)}, Message: {ex}", statusCode: 500);
+                return Problem($"Something went wrong in {nameof(GetStudentsGrades)}, Message: {ex}", statusCode: 500);
             }
         }
 
@@ -65,7 +65,7 @@ namespace Server.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        public async Task<IActionResult> AddGrade(int id)
+        public async Task<IActionResult> DeleteGrade(int id)
         {
             try
             {
@@ -76,7 +76,23 @@ namespace Server.Controllers
             }
             catch (Exception ex)
             {
-                return Problem($"Something went wrong in {nameof(AddGrade)}, Message: {ex}", statusCode: 500);
+                return Problem($"Something went wrong in {nameof(DeleteGrade)}, Message: {ex}", statusCode: 500);
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateGrade([FromBody] StudentGrade grade)
+        {
+            try
+            {
+                _unitOfWork.StudentGrades.Update(grade);
+                await _unitOfWork.Save();
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return Problem($"Something went wrong in {nameof(UpdateGrade)}, Message: {ex}", statusCode: 500);
             }
         }
     }

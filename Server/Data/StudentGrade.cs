@@ -8,9 +8,11 @@ namespace Server.Data
         [Key]
         public int Id { get; set; }
 
+        [Required]
         [ForeignKey("User")]
         public string? UserId { get; set; }
 
+        [Required]
         [ForeignKey("Subject")]
         public int SubjectId { get; set; }
 

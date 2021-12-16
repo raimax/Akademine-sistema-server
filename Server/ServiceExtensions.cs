@@ -12,6 +12,7 @@ namespace Server
         {
             var builder = services.AddIdentityCore<User>(q =>
             {
+                q.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZąčęėįšųūžĄČĘĖĮŠŲŪŽ";
                 q.User.RequireUniqueEmail = false;
                 q.Password.RequireUppercase = false;
                 q.Password.RequireLowercase = false;

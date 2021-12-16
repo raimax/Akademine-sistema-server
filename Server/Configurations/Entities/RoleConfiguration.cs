@@ -8,23 +8,23 @@ namespace Server.Configurations.Entities
     {
         public void Configure(EntityTypeBuilder<IdentityRole> builder)
         {
-            //builder.HasData(
-            //    new IdentityRole
-            //    {
-            //        Name = "Student",
-            //        NormalizedName = "STUDENT"
-            //    },
-            //    new IdentityRole
-            //    {
-            //        Name = "Lecturer",
-            //        NormalizedName = "LECTURER"
-            //    },
-            //    new IdentityRole
-            //    {
-            //        Name = "Administrator",
-            //        NormalizedName = "ADMINISTRATOR"
-            //    }
-            //);
+            builder.HasData(
+                new IdentityRole
+                {
+                    Name = "Student",
+                    NormalizedName = "STUDENT"
+                },
+                new IdentityRole
+                {
+                    Name = "Lecturer",
+                    NormalizedName = "LECTURER"
+                },
+                new IdentityRole
+                {
+                    Name = "Administrator",
+                    NormalizedName = "ADMINISTRATOR"
+                }
+            );
         }
     }
 }
