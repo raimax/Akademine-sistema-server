@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Server.Configurations.Entities;
-using Server.Data;
 
 namespace Server.Data
 {
@@ -17,7 +16,5 @@ namespace Server.Data
 
             builder.ApplyConfiguration(new RoleConfiguration());
         }
-
-        public DbSet<Server.Data.Group> Group { get; set; }
     }
 }

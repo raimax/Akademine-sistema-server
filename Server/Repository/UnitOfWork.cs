@@ -20,17 +20,11 @@ namespace Server.Repository
         }
 
         public IGenericRepository<Group> Groups => _groups ??= new GenericRepository<Group>(_context);
-
         public IGenericRepository<GroupSubject> GroupSubjects => _groupSubjects ??= new GenericRepository<GroupSubject>(_context);
-
         public IGenericRepository<LecturerSubject> LecturerSubjects => _lecturerSubjects ??= new GenericRepository<LecturerSubject>(_context);
-
         public IGenericRepository<StudentGrade> StudentGrades => _studentGrades ??= new GenericRepository<StudentGrade>(_context);
-
         public IGenericRepository<StudentGroup> StudentGroups => _studentGroups ??= new GenericRepository<StudentGroup>(_context);
-
         public IGenericRepository<Subject> Subjects => _subjects ??= new GenericRepository<Subject>(_context);
-
         public IGenericRepository<User> Users => _users ??= new GenericRepository<User>(_context);
 
         public void Dispose()
